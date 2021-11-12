@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <title>Document</title>
+    </head>
+    <body>
+  
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item">  An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">A fourth item</li>
+        </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+        <button class="btn btn-primary b1">Get Data</button>
+        <div class="d-flex justify-content-center a1">
+            <div class="spinner-border a1" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">User ID</th>
+                <th scope="col">ID</th>
+                <th scope="col">Titlle</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+
+              
+            </tbody>
+          </table>
+
+
+        <script>
+            document.querySelector('button.b1').addEventListener('click',function(){
+                //alert('ok7');
+                fetch('https://jsonplaceholder.typicode.com/todos',{method:'GET'})
+                .then((res) => {
+                    console.log(res);
+                    res.json().then((data)=>{
+                        console.log(data);
+                        document.querySelector('.a1').remove();
+
+                        var tr = '';
+                        data.forEach((element) => {
+                            console.log(element);
+
+                            tr = tr + `<tr>
+                                        <td scope="row">`+element.userId+`</td>
+                                        <td>`+element.id+`</td>
+                                        <td>`+element.title+`</td>
+                                        <td>`+element.completed+`</td>
+                                        <td>
+                                                <button class="btn btn-sm btn-primary sj" data-bs-toggle="modal" data-bs-target="#exampleModal">View</button>    
+                                                <button class="btn btn-sm btn-dark">Edit</button>    
+                                                <button class="btn btn-sm btn-danger eve">Delete</button>    
+                                            </td>
+                                       </tr>`
+                            
+                        });
+                        console.log(tr);
+
+                        document.querySelector('table > tbody').innerHTML= tr;
+                    })
+                    
+                    
+                });
+            });
+            document.addEventListener('click',function(tra){ 
+                console.log(tra);
+                if(tra.target && tra.target.classList[3] == 'sj'){
+                    console.log(tra.target.closest('tr').querySelector('td:nth-child(3)').innerHTML);
+                    let f1 = tra.target.closest('tr').querySelector('td:nth-child(3)').innerHTML;
+                    let f2 = tra.target.closest('tr').querySelector('td:nth-child(4)').innerHTML;
+                    let f3 = tra.target.closest('tr').querySelector('td:first-child').innerHTML;
+                    let f4 = tra.target.closest('tr').querySelector('td:nth-child(2)').innerHTML;
+                    // console.log(li2);
+                    // console.log(li3);
+                    // console.log(li4);
+
+                    document.querySelector('.modal-body > .list-group > li:first-child').innerHTML = f3;
+                    document.querySelector('.modal-body > .list-group > li:nth-child(2)').innerHTML = f4;
+                    document.querySelector('.modal-body > .list-group > li:nth-child(3)').innerHTML = f1;
+                    document.querySelector('.modal-body > .list-group > li:last-child').innerHTML = f2;
+                } 
+                if(tra.target && tra.target.classList[3] == 'eve'){
+                    tra.target.closest('tr').remove();
+                }
+                
+
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
